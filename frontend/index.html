@@ -14,7 +14,7 @@
   <a href="/.auth/logout">Logout</a>
 </div>
 
-<!-- Login -->
+<!--  Old Login 
 <div id="login-box">
   <h2>Login</h2>
 
@@ -24,7 +24,7 @@
   <button onclick="login()">Login</button>
 
   <p id="login-msg"></p>
-</div>
+</div>-->
 
 <!-- App -->
 <div id="app-box" style="display:none;">
@@ -39,7 +39,15 @@
   <pre id="data-box"></pre>
 
 </div>
-
+<script>
+  fetch('/.auth/me')
+    .then(r => r.json())
+    .then(data => {
+      if (data.clientPrincipal) {
+        window.location.href = "/dashboard.html";
+      }
+    });
+  </script>
 <script src="app.js"></script>
 </body>
 </html>
