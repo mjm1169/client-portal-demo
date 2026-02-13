@@ -68,3 +68,14 @@ function showApp() {
   document.getElementById("login-box").style.display = "none";
   document.getElementById("app-box").style.display = "block";
 }
+
+// -------------------- NEW AZURE AUTH --------------------
+async function getUser() {
+  const res = await fetch('/.auth/me');
+  const data = await res.json();
+  return data;
+}
+
+getUser().then(user => {
+  console.log(user);
+});
