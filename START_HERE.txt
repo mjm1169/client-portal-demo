@@ -1,0 +1,17 @@
+How to run backend locally
+
+1. Open this folder in VS Code
+
+2. Open Terminal
+
+3. Go to backend folder:
+   cd backend
+
+4. Activate virtual environment:
+   venv\Scripts\activate
+
+5. Start server:
+   uvicorn main:app --reload
+
+6. Open browser:
+   http://127.0.0.1:8000

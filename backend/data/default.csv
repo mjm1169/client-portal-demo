@@ -1,0 +1,39 @@
+﻿Level0,Level1,Level2,Level3,Level4,Level5,Level6,Level7,Level8,Level9,Level10,Score1,Score2,Score3,Score4,size
+Default,,,,,,,,,,,58,36,38,89,10000
+Default,Default England,,,,,,,,,,87,50,51,88,9000
+Default,Default England,BU1,,,,,,,,,71,90,40,62,5000
+Default,Default England,BU1,Area1,,,,,,,,89,70,32,41,4000
+Default,Default England,BU1,Area1,,,,,,,,62,57,66,76,3000
+Default,Default England,BU1,Area1,,,,,,,,43,46,82,89,2000
+Default,Default England,BU1,Area1,,,,,,,,35,86,83,52,1500
+Default,Default England,BU1,Area1,,,,,,,,53,30,61,47,500
+Default,Default England,BU1,Area1,,,,,,,,69,39,39,85,1000
+Default,Default England,BU1,Area1,,,,,,,,71,56,72,75,1000
+Default,Default England,BU1,Area1,,,,,,,,77,49,58,60,800
+Default,Default England,BU1,Area1,,,,,,,,65,70,79,57,200
+Default,Default England,BU1,Area2,,,,,,,,37,74,45,50,500
+Default,Default England,BU1,Area3,,,,,,,,41,49,67,30,100
+Default,Default England,BU1,Area4,,,,,,,,49,61,64,45,100
+Default,Default England,BU1,Area5,,,,,,,,81,54,48,70,100
+Default,Default England,BU1,Area6,,,,,,,,65,57,49,68,100
+Default,Default England,BU1,Area7,,,,,,,,41,87,90,49,95
+Default,Default England,BU1,Area8,,,,,,,,48,44,82,54,2
+Default,Default England,BU1,Area9,,,,,,,,74,34,71,45,3
+Default,Default England,BU2,,,,,,,,,67,76,83,68,2000
+Default,Default England,BU2,Area10,,,,,,,,67,64,53,89,1000
+Default,Default England,BU2,Area11,,,,,,,,50,58,69,58,200
+Default,Default England,BU2,Area12,,,,,,,,90,65,64,86,200
+Default,Default England,BU2,Area13,,,,,,,,63,42,77,82,200
+Default,Default England,BU2,Area14,,,,,,,,82,51,47,66,200
+Default,Default England,BU2,Area15,,,,,,,,52,66,60,70,200
+Default,Default England,BU3,,,,,,,,,62,53,66,81,1500
+Default,Default England,BU3,Area16,,,,,,,,66,82,58,86,500
+Default,Default England,BU3,Area17,,,,,,,,40,53,59,88,400
+Default,Default England,BU3,Area18,,,,,,,,69,56,36,74,300
+Default,Default England,BU4,,,,,,,,,51,66,60,63,500
+Default,Default England,BU4,Area19,,,,,,,,70,41,71,75,300
+Default,Default England,BU4,Area20,,,,,,,,40,83,89,65,200
+Default,Other,,,,,,,,,,48,51,76,50,1000
+Default,Other,Placeholder1,,,,,,,,,41,82,33,77,400
+Default,Other,Placeholder2,,,,,,,,,41,47,54,70,300
+Default,Other,Placeholder3,,,,,,,,,50,52,39,59,300
