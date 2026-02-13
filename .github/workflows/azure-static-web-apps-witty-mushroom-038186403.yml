@@ -1,4 +1,4 @@
-# redeploy 2026-02-13
+#redeploy 2026-02-13
 name: Azure Static Web Apps CI/CD
 
 on:
