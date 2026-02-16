@@ -12,6 +12,14 @@ document.addEventListener("DOMContentLoaded", initDashboard);
 
 async function initDashboard() {
 
+  if (window.location.hash) {
+    history.replaceState(
+      null,
+      "",
+      window.location.pathname
+    );
+  }
+
   const user = await getUser();
   if (!user) return;
 
@@ -62,8 +70,9 @@ function openHierarchy() {
     `#ds=${defaultDs}`
   );
 
-  window.location.href =
-    `/hierarchy.html#ds=${defaultDs}`;
+  window.location.assign(
+    `/hierarchy.html#ds=${defaultDs}`
+  );
 }
 
 
