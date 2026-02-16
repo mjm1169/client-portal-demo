@@ -13,7 +13,11 @@
         "allowedRoles": ["authenticated"]
       },
       {
-        "route": "/api/*",
+        "route": "/reports.html",
+        "allowedRoles": ["authenticated"]
+      },
+      {
+        "route": "/data/*",
         "allowedRoles": ["authenticated"]
       }
     ]
