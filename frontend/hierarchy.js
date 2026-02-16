@@ -748,3 +748,12 @@ window.debugHierarchy = function () {
   // Ensure at least one card is visible even if markup missed .active
   render();
 })();
+
+function goToDashboard() {
+
+  // Clear any dataset state
+  sessionStorage.removeItem("pendingDataset");
+
+  // Go cleanly to dashboard (no hash, no history pollution)
+  window.location.replace("/dashboard.html");
+}
