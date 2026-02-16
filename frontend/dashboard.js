@@ -1,18 +1,21 @@
 // dashboard.js
-import { getUser, logout } from './auth.js';
+import { getUser, logout } from "./auth.js";
 
 console.log("dashboard loaded");
 
-
-// Make function available to HTML onclick
-window.openHierarchy = openHierarchy;
+let currentUser = null;
 
 
 // ---------------- INIT ----------------
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", initDashboard);
+
+
+async function initDashboard() {
 
   const user = await getUser();
   if (!user) return;
+
+  currentUser = user;
 
   console.log("👤 User:", user.email);
 
@@ -22,22 +25,49 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   renderDatasets(user.datasets);
-});
+  renderProducts(user.pages);
+}
+
+
+// ---------------- ROUTER ----------------
+function navigate(page) {
+
+  switch (page) {
+
+    case "hierarchy":
+      openHierarchy();
+      break;
+
+    case "reports":
+      window.location.href = "/reports.html";
+      break;
+
+    case "training":
+      window.location.href = "/training.html";
+      break;
+
+    default:
+      console.warn("Unknown page:", page);
+  }
+}
 
 
 // ---------------- OPEN HIERARCHY ----------------
 function openHierarchy() {
 
-  // Optional: choose default dataset if needed
   const defaultDs = "data1";
 
-  sessionStorage.setItem("pendingDataset", `#ds=${defaultDs}`);
+  sessionStorage.setItem(
+    "pendingDataset",
+    `#ds=${defaultDs}`
+  );
 
-  window.location.href = `/hierarchy.html#ds=${defaultDs}`;
+  window.location.href =
+    `/hierarchy.html#ds=${defaultDs}`;
 }
 
 
-// ---------------- RENDER ----------------
+// ---------------- RENDER DATASETS ----------------
 function renderDatasets(datasets) {
 
   const container = document.getElementById("dataset-list");
@@ -54,6 +84,7 @@ function renderDatasets(datasets) {
   datasets.forEach(ds => {
 
     const btn = document.createElement("button");
+
     btn.innerText = ds;
 
     btn.onclick = () => openDataset(ds);
@@ -66,7 +97,44 @@ function renderDatasets(datasets) {
 // ---------------- OPEN DATASET ----------------
 function openDataset(name) {
 
-  sessionStorage.setItem("pendingDataset", `#ds=${name}`);
+  sessionStorage.setItem(
+    "pendingDataset",
+    `#ds=${name}`
+  );
 
-  window.location.href = `/hierarchy.html#ds=${name}`;
+  window.location.href =
+    `/hierarchy.html#ds=${name}`;
+}
+
+
+// ---------------- RENDER PRODUCTS ----------------
+function renderProducts(pages) {
+
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+
+    const target = card.dataset.page;
+
+    if (!target) return;
+
+    if (!pages.includes(target)) {
+
+      card.classList.add("disabled");
+
+      card.onclick = () => openNoAccess(target);
+
+    } else {
+
+      card.onclick = () => navigate(target);
+    }
+  });
+}
+
+
+// ---------------- NO ACCESS ----------------
+function openNoAccess(page) {
+
+  window.location.href =
+    `/no-access.html?page=${page}`;
 }
