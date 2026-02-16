@@ -453,7 +453,22 @@ function drawChart(rows) {
 /**********************************************************
  * HIERARCHY BUILDER
  **********************************************************/
+
 function buildHierarchy(rows) {
+
+  // 🔥 Clean BOM from first column name if present
+  rows = rows.map(row => {
+    const clean = {};
+
+    Object.keys(row).forEach(k => {
+      const cleanKey = k.replace(/^\uFEFF/, '');
+      clean[cleanKey] = row[k];
+    });
+
+    return clean;
+  });
+
+//function buildHierarchy(rows) {
 
   console.log("Building hierarchy...");
 
