@@ -10,6 +10,20 @@ function logout() {
 // ---------------- INIT ----------------
 async function initApp() {
 
+  // Restore dataset after login redirect
+  const saved = sessionStorage.getItem("pendingDataset");
+
+  if (saved && !window.location.hash) {
+    sessionStorage.removeItem("pendingDataset");
+    window.location.hash = saved;
+    return; // reload with hash
+  }
+
+  // Save dataset before auth redirect
+  if (window.location.hash) {
+    sessionStorage.setItem("pendingDataset", window.location.hash);
+  }
+
   const res = await fetch('/api/me');
 
   if (!res.ok) {
@@ -29,7 +43,6 @@ async function initApp() {
 
   renderDatasets(user.datasets);
 }
-
 
 // ---------------- RENDER ----------------
 function renderDatasets(datasets) {
@@ -59,7 +72,7 @@ function renderDatasets(datasets) {
 
 // ---------------- OPEN DATASET ----------------
 function openDataset(name) {
-  window.location.href = `/hierarchy.html#ds=${dataset}`;;
+  window.location.href = `/hierarchy.html#ds=${name}`;;
 }
 
 
