@@ -463,6 +463,40 @@ function drawChart(rows) {
       }
       return Math.max(...node.children.map(computeMaxDepth));
     }
+    // Load score labels from CSV
+    fetch('/data/qText.csv')
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to load qText.csv");
+      return res.text();
+    })
+    .then(text => {
+    
+      const data = d3.csvParse(text);
+      const dropdown = d3.select('#scoreSelector');
+    
+      // Clear existing
+      dropdown.selectAll('option').remove();
+    
+      // Add options
+      data.forEach(d => {
+        dropdown.append('option')
+          .attr('value', d.QID)
+          .text(d.Qtext);
+      });
+    
+      // Default
+      dropdown.property('value', 'Score1');
+    
+      // Change handler
+      dropdown.on('change', function () {
+      const selectedScore = this.value;
+      clicked(null, currentNode, selectedScore);
+    });
+
+    })
+    .catch(err => {
+      console.error("Failed to load dropdown labels:", err);
+    });
 
   console.log("Chart rendering complete");
 }
