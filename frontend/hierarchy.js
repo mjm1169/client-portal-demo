@@ -449,7 +449,9 @@ function drawChart(rows) {
 }
 
 
-
+function normalizeKey(k) {
+  return k.replace(/^\uFEFF/, "").trim();
+}
 /**********************************************************
  * HIERARCHY BUILDER
  **********************************************************/
@@ -459,12 +461,9 @@ function buildHierarchy(rows) {
   // 🔥 Clean BOM from first column name if present
   rows = rows.map(row => {
     const clean = {};
-
     Object.keys(row).forEach(k => {
-      const cleanKey = k.replace(/^\uFEFF/, '');
-      clean[cleanKey] = row[k];
+      clean[normalizeKey(k)] = row[k];
     });
-
     return clean;
   });
 
