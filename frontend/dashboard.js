@@ -1,28 +1,41 @@
-// dashboard.js (Azure Auth version)
+// dashboard.js
+import { getUser, logout } from './auth.js';
 
-console.log("dashboard.js loaded (Azure auth)");
+console.log("dashboard loaded");
 
-async function loadUserData() {
 
-  const res = await fetch('/api/me');
+// ---------------- INIT ----------------
+document.addEventListener("DOMContentLoaded", async () => {
 
-  if (!res.ok) {
-    window.location.href = '/.auth/login/aad';
-    return;
+  const user = await getUser();
+  if (!user) return;
+
+  console.log("👤 User:", user.email);
+  console.log("🔐 Datasets:", user.datasets);
+
+  // Show email
+  const el = document.getElementById("user-email");
+  if (el) {
+    el.innerText = user.email;
   }
 
-  const user = await res.json();
-
-  document.getElementById("user-email").innerText =
-    "Signed in as: " + user.email;
-
   renderDatasets(user.datasets);
-}
+});
 
+
+// ---------------- RENDER ----------------
 function renderDatasets(datasets) {
 
   const container = document.getElementById("dataset-list");
+
+  if (!container) return;
+
   container.innerHTML = "";
+
+  if (!datasets.length) {
+    container.innerText = "No datasets assigned.";
+    return;
+  }
 
   datasets.forEach(ds => {
 
@@ -35,14 +48,11 @@ function renderDatasets(datasets) {
   });
 }
 
-function openHierarchy() {
 
-  // Default dataset (for now)
-  const ds = "data1";
+// ---------------- OPEN DATASET ----------------
+function openDataset(name) {
 
-  sessionStorage.setItem("pendingDataset", `#ds=${ds}`);
+  sessionStorage.setItem("pendingDataset", `#ds=${name}`);
 
-  window.location.href = `hierarchy.html#ds=${ds}`;
+  window.location.href = `/hierarchy.html#ds=${name}`;
 }
-
-document.addEventListener("DOMContentLoaded", checkAuth);

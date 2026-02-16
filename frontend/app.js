@@ -1,4 +1,4 @@
-console.log("app.js loaded");
+/*console.log("app.js loaded");
 console.log("👤 User:", user.email);
 console.log("🔐 Datasets:", user.datasets)
 
@@ -82,3 +82,4 @@ function openDataset(name) {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
+*/
