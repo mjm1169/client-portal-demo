@@ -44,7 +44,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     # Load CSV
     data_path = os.path.abspath(
-        os.path.join(base, "..", "..", "backend", "data", f"{dataset}.csv")
+        os.path.join(base, "..", "datafiles", f"{dataset}.csv")
     )
 
     if not os.path.exists(data_path):
