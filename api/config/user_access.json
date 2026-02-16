@@ -1,0 +1,20 @@
+{
+    "users": {
+      "m.mason@karianandbox.com": {
+        "datasets": ["data1", "data2"]
+      },
+      "test.user@company.com": {
+        "datasets": ["default"]
+      }
+    },
+  
+    "groups": {
+      "admins": {
+        "datasets": ["data1", "data2", "qText"]
+      },
+      "basic": {
+        "datasets": ["default"]
+      }
+    }
+  }
+  

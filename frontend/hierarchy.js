@@ -1,99 +1,37 @@
-/******************************************************************
- * hierarchy.js
- * Builds a hierarchy from Level0...LevelN columns and draws a tree
- ******************************************************************/
-
-console.log("hierarchy.js loaded");
-
-/**********************************************************
- * CONFIG
- **********************************************************/
-
-// Uses API_URL + authHeaders from app.js
-// Make sure app.js loads BEFORE this file
-
-const CHART_WIDTH = 1000;
-const CHART_HEIGHT = 700;
+console.log("hierarchy loaded");
 
 
-/**********************************************************
- * ENTRY POINT
- **********************************************************/
-
-loadHierarchy();
-
-
-async function loadHierarchy() {
-
-  console.log("Loading hierarchy data...");
-
-  try {
-
-    const res = await fetch(`${API_URL}/data`, {
-      headers: authHeaders()
-    });
-
-    console.log("Fetch status:", res.status);
-
-    if (!res.ok) {
-      throw new Error("API returned " + res.status);
-    }
-
-    const data = await res.json();
-
-    console.log("Raw rows loaded:", data.length);
-    console.log("First row:", data[0]);
-
-    if (!Array.isArray(data)) {
-      throw new Error("Data is not an array");
-    }
-
-    drawChart(data);
-
-  } catch (err) {
-
-    console.error("Hierarchy load failed:", err);
-    console.error(err.stack);
-    alert(err.message);
-
-  }
+function getDataset() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("ds");
 }
 
-/*
-async function loadHierarchy() {
 
-  console.log("Loading hierarchy data...");
+async function loadData() {
 
-  const token = localStorage.getItem("token");
+  const ds = getDataset();
 
-  console.log("TOKEN BEING SENT:", token);
+  if (!ds) {
+    alert("No dataset selected");
+    return;
+  }
 
-  const res = await fetch("http://127.0.0.1:8000/data", {
-    headers: {
-      "Authorization": "Bearer " + token
-    }
-  });
-
-  console.log("Request headers:", {
-    "Authorization": "Bearer " + token
-  });
-
-  console.log("Fetch status:", res.status);
+  const res = await fetch(`/api/data?ds=${ds}`);
 
   if (!res.ok) {
-    throw new Error("API returned " + res.status);
+    alert("Access denied or data missing");
+    return;
   }
 
   const data = await res.json();
 
-  console.log("Hierarchy data:", data);
+  console.log("Loaded data:", data);
 
   drawChart(data);
 }
-*/
-/**********************************************************
- * MAIN DRAW FUNCTION
- **********************************************************/
+
+
+document.addEventListener("DOMContentLoaded", loadData);
 
 function drawChart(rows) {
   const width = 900;
