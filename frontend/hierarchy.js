@@ -35,21 +35,40 @@ async function loadData() {
 
   const ds = getDataset();
 
+  console.log("📦 Requested dataset:", ds);
+
   if (!ds) {
+    console.error("❌ No dataset in URL hash");
     alert("No dataset selected");
     return;
   }
 
-  const res = await fetch(`/api/data?ds=${ds}`);
+  const url = `/api/data?ds=${encodeURIComponent(ds)}`;
+  console.log("🌐 Fetching:", url);
+
+  let res;
+
+  try {
+    res = await fetch(url);
+  } catch (e) {
+    console.error("❌ Network/API failure:", e);
+    alert("Network error");
+    return;
+  }
+
+  console.log("📡 API status:", res.status);
 
   if (!res.ok) {
+    const txt = await res.text();
+    console.error("❌ API error body:", txt);
     alert("Access denied or data missing");
     return;
   }
 
   const data = await res.json();
 
-  console.log("Loaded data:", data);
+  console.log("✅ Rows loaded:", data.length);
+  console.table(data.slice(0, 5));
 
   drawChart(data);
 }
@@ -75,7 +94,7 @@ function drawChart(rows) {
   // -----------------------------
   
   console.log("Building hierarchy...");
-
+  
   let hierarchyData = buildHierarchy(rows);
 
   // Remove fake root if it only has one child
@@ -220,7 +239,7 @@ function drawChart(rows) {
   const labelGroup = g.append("g")
     .attr("class", "labels")
     .style("pointer-events", "none");
-  const centerCircle = svg
+  /*const centerCircle = svg
     .append('circle')
     .attr('r', levelWidth)
     .attr('fill', colorScale(root.data.scores.Score1 || 0));
@@ -231,7 +250,7 @@ function drawChart(rows) {
       }
     
       return (3 * levelWidth * 1.4) + (d - 3) * levelWidth * 0.7;
-    }
+    }*/
 
     const path = pathGroup
       .selectAll("path")
@@ -468,8 +487,8 @@ function buildHierarchy(rows) {
   });
 
 //function buildHierarchy(rows) {
+  console.log("🏗 Building hierarchy from", rows.length, "rows");
 
-  console.log("Building hierarchy...");
 
   const root = {
     name: "Root",
@@ -503,6 +522,8 @@ function buildHierarchy(rows) {
 
     return child;
   }
+  console.log("📊 Score columns:", scoreColumns);
+  console.log("📐 Level columns:", Object.keys(rows[0]).filter(k => k.startsWith("Level")));
 
   // ----------------------------
   // BUILD TREE
@@ -591,7 +612,7 @@ function buildHierarchy(rows) {
 
 
   console.log("Hierarchy build complete");
-
+  console.log("🌳 Root children:", root.children.length);
   return root;
 }
 
