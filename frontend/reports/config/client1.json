@@ -1,0 +1,43 @@
+{
+    "title": "Client Performance Report",
+  
+    "pages": [
+  
+      {
+        "title": "Overview",
+  
+        "blocks": [
+  
+          {
+            "type": "kpi",
+            "data": "/reports/data/kpi.json"
+          },
+  
+          {
+            "type": "gauge",
+            "data": "/reports/data/progress.json"
+          }
+  
+        ]
+      },
+  
+      {
+        "title": "Sales",
+  
+        "blocks": [
+  
+          {
+            "type": "bar",
+            "data": "/reports/data/sales.json"
+          },
+  
+          {
+            "type": "scatter",
+            "data": "/reports/data/scatter.json"
+          }
+  
+        ]
+      }
+    ]
+  }
+  
