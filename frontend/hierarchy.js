@@ -2,10 +2,19 @@ console.log("hierarchy loaded");
 
 
 function getDataset() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("ds");
-}
 
+  const hash = window.location.hash.substring(1); // ds=data1
+
+  if (!hash) return null;
+
+  const parts = hash.split("=");
+
+  if (parts.length !== 2) return null;
+
+  if (parts[0] !== "ds") return null;
+
+  return decodeURIComponent(parts[1]);
+}
 
 async function loadData() {
 
