@@ -1,24 +1,33 @@
-console.log("hierarchy loaded");
-
-async function checkAccess() {
+async function loadUser() {
 
   const res = await fetch('/api/me');
 
   if (!res.ok) {
     window.location.href = "/.auth/login/aad";
-    return false;
+    return null;
   }
 
-  const user = await res.json();
-
-  if (!user.pages.includes("hierarchy")) {
-    alert("Access denied");
-    window.location.href = "/dashboard.html";
-    return false;
-  }
-
-  return true;
+  return await res.json();
 }
+
+function checkAccess(user) {
+  return user?.pages?.includes("hierarchy");
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const user = await loadUser();
+
+  if (!user) return;
+
+  if (!checkAccess(user)) {
+    document.body.innerHTML = "<h2>Access denied</h2>";
+    return;
+  }
+
+  loadData();
+});
+
 
 // Restore dataset after Azure redirect
 (function restoreDataset() {
