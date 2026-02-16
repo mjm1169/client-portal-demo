@@ -4,6 +4,10 @@ import { getUser, logout } from './auth.js';
 console.log("dashboard loaded");
 
 
+// Make function available to HTML onclick
+window.openHierarchy = openHierarchy;
+
+
 // ---------------- INIT ----------------
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -11,9 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!user) return;
 
   console.log("👤 User:", user.email);
-  console.log("🔐 Datasets:", user.datasets);
 
-  // Show email
   const el = document.getElementById("user-email");
   if (el) {
     el.innerText = user.email;
@@ -21,6 +23,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   renderDatasets(user.datasets);
 });
+
+
+// ---------------- OPEN HIERARCHY ----------------
+function openHierarchy() {
+
+  // Optional: choose default dataset if needed
+  const defaultDs = "data1";
+
+  sessionStorage.setItem("pendingDataset", `#ds=${defaultDs}`);
+
+  window.location.href = `/hierarchy.html#ds=${defaultDs}`;
+}
 
 
 // ---------------- RENDER ----------------
