@@ -72,8 +72,11 @@ function renderDatasets(datasets) {
 
 // ---------------- OPEN DATASET ----------------
 function openDataset(name) {
-  window.location.href = `/hierarchy.html#ds=${name}`;;
-}
 
+  // Save before redirect
+  sessionStorage.setItem("pendingDataset", `#ds=${name}`);
+
+  window.location.href = `/hierarchy.html#ds=${name}`;
+}
 
 document.addEventListener("DOMContentLoaded", initApp);

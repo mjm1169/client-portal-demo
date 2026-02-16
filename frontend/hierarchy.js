@@ -1,5 +1,20 @@
 console.log("hierarchy loaded");
 
+// Restore dataset after Azure redirect
+(function restoreDataset() {
+
+  const saved = sessionStorage.getItem("pendingDataset");
+
+  if (saved && !window.location.hash) {
+    console.log("Restoring dataset:", saved);
+
+    sessionStorage.removeItem("pendingDataset");
+    window.location.hash = saved;
+
+    location.reload();
+  }
+
+})();
 
 function getDataset() {
 
