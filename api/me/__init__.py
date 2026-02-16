@@ -35,11 +35,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # User-level override
     if email in access.get("users", {}):
         datasets = access["users"][email]["datasets"]
+        pages = access["users"][email]["pages"]
+        role = access["users"][email]["role"]
 
     return func.HttpResponse(
         json.dumps({
             "email": email,
-            "datasets": datasets
+            "datasets": datasets,
+            "pages": pages,
+            "role": role
         }),
         mimetype="application/json"
     )
