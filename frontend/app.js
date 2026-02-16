@@ -59,7 +59,7 @@ function renderDatasets(datasets) {
 
 // ---------------- OPEN DATASET ----------------
 function openDataset(name) {
-  window.location.href = `hierarchy.html?ds=${name}`;
+  window.location.href = `/hierarchy.html#ds=${dataset}`;;
 }
 
 

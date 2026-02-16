@@ -1,7 +1,7 @@
 {
     "users": {
       "m.mason@karianandbox.com": {
-        "datasets": ["data1", "data2"]
+        "datasets": ["data1"]
       },
       "test.user@company.com": {
         "datasets": ["default"]
