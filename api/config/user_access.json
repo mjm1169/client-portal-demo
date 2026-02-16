@@ -1,20 +1,15 @@
 {
     "users": {
       "m.mason@karianandbox.com": {
+        "role": "admin",
+        "pages": ["hierarchy", "reports"],
         "datasets": ["data1"]
       },
-      "test.user@company.com": {
-        "datasets": ["default"]
+      "user2@company.com": {
+        "role": "viewer",
+        "pages": ["hierarchy"],
+        "datasets": ["data2"]
       }
-    },
-  
-    "groups": {
-      "admins": {
-        "datasets": ["data1", "data2", "qText"]
-      },
-      "basic": {
-        "datasets": ["default"]
-      }
-    }
   }
+}
   

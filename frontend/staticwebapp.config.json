@@ -3,6 +3,18 @@
       {
         "route": "/api/*",
         "allowedRoles": ["authenticated"]
+      },
+      {
+        "route": "/dashboard.html",
+        "allowedRoles": ["authenticated"]
+      },
+      {
+        "route": "/hierarchy.html",
+        "allowedRoles": ["authenticated"]
+      },
+      {
+        "route": "/api/*",
+        "allowedRoles": ["authenticated"]
       }
     ]
   }

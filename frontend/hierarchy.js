@@ -1,5 +1,25 @@
 console.log("hierarchy loaded");
 
+async function checkAccess() {
+
+  const res = await fetch('/api/me');
+
+  if (!res.ok) {
+    window.location.href = "/.auth/login/aad";
+    return false;
+  }
+
+  const user = await res.json();
+
+  if (!user.pages.includes("hierarchy")) {
+    alert("Access denied");
+    window.location.href = "/dashboard.html";
+    return false;
+  }
+
+  return true;
+}
+
 // Restore dataset after Azure redirect
 (function restoreDataset() {
 
@@ -74,7 +94,13 @@ async function loadData() {
 }
 
 
-document.addEventListener("DOMContentLoaded", loadData);
+document.addEventListener("DOMContentLoaded", async () => {
+
+  if (!(await checkAccess())) return;
+
+  loadData();
+
+});
 
 function drawChart(rows) {
   const width = 900;

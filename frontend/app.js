@@ -1,5 +1,6 @@
 console.log("app.js loaded");
-
+console.log("👤 User:", user.email);
+console.log("🔐 Datasets:", user.datasets)
 
 // ---------------- LOGOUT ----------------
 function logout() {
@@ -42,6 +43,7 @@ async function initApp() {
   }
 
   renderDatasets(user.datasets);
+  renderProducts(user.pages);
 }
 
 // ---------------- RENDER ----------------
