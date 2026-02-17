@@ -293,7 +293,7 @@ async function renderBlock(container, block) {
 
     console.log("📦 Loading block:", block.type);
 
-    const module = await import(`/blocks/${block.type}.js`);
+    const module = await import(`/reports/blocks/${block.type}.js`);
 
     if (!module.render) {
       throw new Error("Block missing render() function");
