@@ -72,7 +72,7 @@ async function loadData() {
     return;
   }
 
-  const url = `/api/hierarchy?ds=${encodeURIComponent(ds)}`;
+  const url = `/api/datafiles?ds=${encodeURIComponent(ds)}`;
   console.log("🌐 Fetching:", url);
 
   let res;
