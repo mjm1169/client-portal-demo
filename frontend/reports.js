@@ -55,6 +55,28 @@ async function initReports() {
   renderReport(report);
 }
 
+// DATA HANDLING
+async function resolveBlockData(block) {
+
+  // Inline data
+  if (Array.isArray(block.data) || typeof block.data === "object") {
+    return block.data;
+  }
+
+  // URL data
+  if (typeof block.data === "string") {
+
+    const res = await fetch(block.data);
+
+    if (!res.ok) {
+      throw new Error("Failed to load data: " + block.data);
+    }
+
+    return await res.json();
+  }
+
+  throw new Error("Invalid block data");
+}
 
 
 // ================================
@@ -212,7 +234,12 @@ async function renderBlock(container, block) {
     }
 
 
-    await module.render(blockEl, block);
+    const data = await resolveBlockData(block);
+
+    await module.render(blockEl, {
+      ...block,
+      data
+    });
 
 
   } catch (err) {
