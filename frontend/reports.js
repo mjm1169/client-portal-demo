@@ -117,45 +117,74 @@ async function renderReport(report) {
     return;
   }
 
-  // Clear previous
   root.innerHTML = "";
 
 
-  // Title
+  // ============================
+  // Report Title
+  // ============================
   if (report.title) {
 
     const h1 = document.createElement("h1");
     h1.innerText = report.title;
+    h1.className = "report-title";
 
     root.appendChild(h1);
   }
 
 
-  // Description
-  if (report.description) {
+  // ============================
+  // Pages Container
+  // ============================
+  const pagesContainer = document.createElement("div");
+  pagesContainer.className = "report-pages";
 
-    const p = document.createElement("p");
-    p.innerText = report.description;
-    p.className = "report-description";
+  root.appendChild(pagesContainer);
 
-    root.appendChild(p);
+
+  if (!Array.isArray(report.pages)) {
+    showError("Report has no pages.");
+    return;
   }
 
 
-  // Blocks container
-  const container = document.createElement("div");
-  container.className = "report-blocks";
+  // ============================
+  // Render Pages
+  // ============================
+  for (let i = 0; i < report.pages.length; i++) {
 
-  root.appendChild(container);
+    const page = report.pages[i];
+
+    const pageEl = document.createElement("section");
+    pageEl.className = "report-page";
+
+    pagesContainer.appendChild(pageEl);
 
 
-  // Load each block
-  for (const block of report.blocks) {
+    // Page header
+    if (page.title) {
 
-    await renderBlock(container, block);
+      const h2 = document.createElement("h2");
+      h2.innerText = `${i + 1}. ${page.title}`;
+
+      pageEl.appendChild(h2);
+    }
+
+
+    if (!Array.isArray(page.blocks)) {
+      console.error("Invalid blocks:", page.blocks);
+      continue;
+    }
+
+
+    // Page blocks
+    for (const block of page.blocks) {
+
+      await renderBlock(pageEl, block);
+    }
   }
-
 }
+
 
 
 
