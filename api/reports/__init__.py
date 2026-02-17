@@ -69,7 +69,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             base,
             "..",
             "datafiles",
-            "reports",
+            #"reports",
             f"{client}.json"
         )
     )
