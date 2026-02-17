@@ -1,174 +1,219 @@
-// reports/reports.js
-
-import { animatedBar } from "./blocks/animatedBar.js";
-import { tooltipScatter } from "./blocks/tooltipScatter.js";
-import { filterableLine } from "./blocks/filterableLine.js";
-import { kpiTiles } from "./blocks/kpiTiles.js";
-import { progressGauge } from "./blocks/progressGauge.js";
+// reports.js
+import { getUser } from "./auth.js";
 
 
-// ---------------- BLOCK REGISTRY ----------------
-// Maps config "type" → JS module
-
-const BLOCKS = {
-  bar: animatedBar,
-  scatter: tooltipScatter,
-  line: filterableLine,
-  kpi: kpiTiles,
-  gauge: progressGauge
-};
+document.addEventListener("DOMContentLoaded", initReports);
 
 
-// ---------------- AUTH ----------------
-async function getUser() {
+// ================================
+// MAIN ENTRY
+// ================================
+async function initReports() {
 
-  const res = await fetch("/api/me");
+  console.log("📊 reports.js loaded");
 
-  if (!res.ok) {
-    window.location.href = "/.auth/login/aad";
-    return null;
-  }
+  // 0. Get client from URL
+  const client = getClientFromHash();
 
-  return await res.json();
-}
-
-
-// ---------------- LOAD REPORT CONFIG ----------------
-async function loadReportConfig(reportId) {
-
-  const res = await fetch(`/reports/config/${reportId}.json`);
-
-  if (!res.ok) {
-    throw new Error("Report config not found");
-  }
-
-  return await res.json();
-}
-
-
-// ---------------- LOAD DATA ----------------
-async function loadData(source) {
-
-  const res = await fetch(source);
-
-  if (!res.ok) {
-    throw new Error("Data source failed");
-  }
-
-  return await res.json();
-}
-
-
-// ---------------- RENDER BLOCK ----------------
-async function renderBlock(block, container) {
-
-  const blockFn = BLOCKS[block.type];
-
-  if (!blockFn) {
-    console.error("Unknown block:", block.type);
+  if (!client) {
+    showError("No report client specified.");
     return;
   }
 
-  let data = [];
+  console.log("➡️ Loading report for:", client);
 
-  if (block.data) {
-    data = await loadData(block.data);
+
+  // 1. Get logged-in user
+  const user = await getUser();
+
+  if (!user) return;
+
+  console.log("👤 User:", user.email);
+
+
+  // 2. Check page access
+  if (!user.pages || !user.pages.includes("reports")) {
+    showError("You do not have access to Reports.");
+    return;
   }
 
-  blockFn(container, data, block.options || {});
-}
 
-
-// ---------------- RENDER PAGE ----------------
-async function renderPage(page) {
-
-  const container = document.getElementById("report-content");
-  container.innerHTML = "";
-
-  for (const block of page.blocks) {
-
-    const div = document.createElement("div");
-
-    div.className = "report-block";
-    div.style.marginBottom = "40px";
-
-    container.appendChild(div);
-
-    await renderBlock(block, div);
-  }
-}
-
-
-// ---------------- NAV ----------------
-function buildNav(pages) {
-
-  const nav = document.getElementById("report-nav");
-
-  pages.forEach((page, index) => {
-
-    const btn = document.createElement("button");
-
-    btn.innerText = page.title;
-    btn.className = "nav-btn";
-
-    btn.onclick = () => renderPage(page);
-
-    if (index === 0) {
-      btn.classList.add("active");
-    }
-
-    nav.appendChild(btn);
-  });
-}
-
-
-// ---------------- ACCESS CONTROL ----------------
-function checkAccess(user, reportId) {
-
-  if (!user.pages.includes(`report-${reportId}`)) {
-    window.location.href = "/no-access.html";
-    return false;
+  // 3. (Optional) Check client-level access
+  if (user.reports && !user.reports.includes(client)) {
+    showError("You are not authorised for this client report.");
+    return;
   }
 
-  return true;
+
+  // 4. Load report config
+  const report = await loadReportConfig(client);
+
+  if (!report) return;
+
+
+  // 5. Render report
+  renderReport(report);
 }
 
 
-// ---------------- INIT ----------------
-async function init() {
+
+// ================================
+// URL HANDLING
+// ================================
+function getClientFromHash() {
+
+  const hash = window.location.hash.substring(1);
+
+  if (!hash) return null;
+
+  const params = new URLSearchParams(hash);
+
+  return params.get("client");
+}
+
+
+
+// ================================
+// LOAD REPORT CONFIG
+// ================================
+async function loadReportConfig(client) {
 
   try {
 
-    const params = new URLSearchParams(window.location.search);
+    const res = await fetch(`/data/reports/${client}.json`);
 
-    const reportId = params.get("id");
-
-    if (!reportId) {
-      throw new Error("Missing report id");
+    if (!res.ok) {
+      showError("Report configuration not found.");
+      return null;
     }
 
-    const user = await getUser();
-    if (!user) return;
+    const data = await res.json();
 
-    if (!checkAccess(user, reportId)) return;
+    console.log("📄 Report config:", data);
 
-    const config = await loadReportConfig(reportId);
-
-    document.getElementById("report-title").innerText =
-      config.title;
-
-    buildNav(config.pages);
-
-    renderPage(config.pages[0]);
+    return data;
 
   } catch (err) {
 
     console.error(err);
 
-    document.getElementById("report-content")
-      .innerText = "Failed to load report.";
+    showError("Failed to load report configuration.");
+
+    return null;
   }
 }
 
 
-document.addEventListener("DOMContentLoaded", init);
+
+// ================================
+// RENDER REPORT
+// ================================
+async function renderReport(report) {
+
+  const root = document.getElementById("report-root");
+
+  if (!root) {
+    console.error("Missing #report-root container");
+    return;
+  }
+
+  // Clear previous
+  root.innerHTML = "";
+
+
+  // Title
+  if (report.title) {
+
+    const h1 = document.createElement("h1");
+    h1.innerText = report.title;
+
+    root.appendChild(h1);
+  }
+
+
+  // Description
+  if (report.description) {
+
+    const p = document.createElement("p");
+    p.innerText = report.description;
+    p.className = "report-description";
+
+    root.appendChild(p);
+  }
+
+
+  // Blocks container
+  const container = document.createElement("div");
+  container.className = "report-blocks";
+
+  root.appendChild(container);
+
+
+  // Load each block
+  for (const block of report.blocks) {
+
+    await renderBlock(container, block);
+  }
+
+}
+
+
+
+// ================================
+// RENDER INDIVIDUAL BLOCK
+// ================================
+async function renderBlock(container, block) {
+
+  const blockEl = document.createElement("div");
+
+  blockEl.className = "report-block";
+
+  container.appendChild(blockEl);
+
+
+  try {
+
+    console.log("📦 Loading block:", block.type);
+
+    const module = await import(`/blocks/${block.type}.js`);
+
+
+    if (!module.render) {
+      throw new Error("Block missing render() function");
+    }
+
+
+    await module.render(blockEl, block);
+
+
+  } catch (err) {
+
+    console.error("Block load error:", err);
+
+    blockEl.innerHTML = `
+      <div class="block-error">
+        Failed to load block: ${block.type}
+      </div>
+    `;
+  }
+}
+
+
+
+// ================================
+// ERROR HANDLING
+// ================================
+function showError(msg) {
+
+  console.error("❌", msg);
+
+  const root = document.getElementById("report-root");
+
+  if (!root) return;
+
+  root.innerHTML = `
+    <div class="report-error">
+      ${msg}
+    </div>
+  `;
+}

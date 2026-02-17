@@ -1,0 +1,20 @@
+{
+    "title": "Client Performance Report",
+  
+    "pages": [
+  
+      {
+        "title": "Sales",
+  
+        "blocks": [
+  
+          {
+            "type": "bar",
+            "data": "/reports/sales.json"
+          }
+  
+        ]
+      }
+    ]
+  }
+  
