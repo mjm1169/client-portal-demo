@@ -47,7 +47,7 @@ function navigate(page) {
       break;
 
     case "reports":
-      window.location.href = "/reports.html#client=client1";
+      window.location.href = "/reports.html#client=client2";
       break;
 
     case "training":
