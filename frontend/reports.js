@@ -80,7 +80,7 @@ async function loadReportConfig(client) {
 
   try {
 
-    const res = await fetch(`/data/reports/${client}.json`);
+    const res = await fetch(`/reports/${client}.json`);
 
     if (!res.ok) {
       showError("Report configuration not found.");
