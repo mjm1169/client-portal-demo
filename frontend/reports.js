@@ -3,6 +3,8 @@ import { getUser } from "./auth.js";
 
 
 document.addEventListener("DOMContentLoaded", initReports);
+let reportConfig = null;
+let currentPageIndex = 0;
 
 
 // ================================
@@ -45,14 +47,16 @@ async function initReports() {
   }
 
 
-  // 4. Load report config
-  const report = await loadReportConfig(client);
+  reportConfig = await loadReportConfig(client);
 
-  if (!report) return;
+  if (!reportConfig) return;
 
+  // Start on first page
+  currentPageIndex = 0;
 
-  // 5. Render report
-  renderReport(report);
+  setupNavigation();
+  renderCurrentPage();
+
 }
 
 // DATA HANDLING
@@ -127,7 +131,7 @@ async function loadReportConfig(client) {
 
 
 
-// ================================
+/* // ================================
 // RENDER REPORT
 // ================================
 async function renderReport(report) {
@@ -205,8 +209,34 @@ async function renderReport(report) {
       await renderBlock(pageEl, block);
     }
   }
-}
+} */
+  async function renderCurrentPage() {
 
+    const root = document.getElementById("report-root");
+  
+    if (!root) {
+      console.error("Missing #report-root container");
+      return;
+    }
+  
+    // Clear
+    root.innerHTML = "";
+  
+    const page = reportConfig.pages[currentPageIndex];
+  
+    // Set page title
+    document.getElementById("page-title").innerText =
+      page.title || `Page ${currentPageIndex + 1}`;
+  
+    // Render blocks
+    for (const block of page.blocks) {
+  
+      await renderBlock(root, block);
+    }
+  
+    updateNavButtons();
+  }
+  
 
 
 
@@ -272,4 +302,51 @@ function showError(msg) {
       ${msg}
     </div>
   `;
+}
+
+// ================================
+// NAVIGATION
+// ===============================
+// ================================
+// PAGE NAVIGATION
+// ================================
+function setupNavigation() {
+
+  document
+    .getElementById("prev-page")
+    .addEventListener("click", prevPage);
+
+  document
+    .getElementById("next-page")
+    .addEventListener("click", nextPage);
+
+  updateNavButtons();
+}
+
+
+function prevPage() {
+
+  if (currentPageIndex > 0) {
+    currentPageIndex--;
+    renderCurrentPage();
+  }
+}
+
+
+function nextPage() {
+
+  if (currentPageIndex < reportConfig.pages.length - 1) {
+    currentPageIndex++;
+    renderCurrentPage();
+  }
+}
+
+
+function updateNavButtons() {
+
+  document.getElementById("prev-page").disabled =
+    currentPageIndex === 0;
+
+  document.getElementById("next-page").disabled =
+    currentPageIndex === reportConfig.pages.length - 1;
 }

@@ -28,18 +28,18 @@
       max-width: 1000px;
       margin: auto;
     }
-    
+
     .report-page {
       padding: 40px 0;
       border-bottom: 2px solid #eee;
       margin-bottom: 40px;
     }
-    
+
     .report-page h2 {
       margin-bottom: 20px;
       color: #333;
     }
-    
+
     .report-block {
       margin-bottom: 30px;
     }
@@ -50,12 +50,18 @@
 <body>
 
 <h1 id="report-title"></h1>
+<div id="report-nav" style="margin-bottom:20px;">
+  <button id="prev-page">⬅ Previous</button>
+
+  <span id="page-title" style="margin:0 20px;font-weight:bold;"></span>
+
+  <button id="next-page">Next ➡</button>
+</div>
+
 <main>
   <div id="report-root"></div>
 </main>
-<div id="report-nav"></div>
 
-<div id="report-content"></div>
 
 
 <script type="module" src="reports.js"></script>
