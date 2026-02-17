@@ -3,12 +3,14 @@
       "m.mason@karianandbox.com": {
         "role": "admin",
         "pages": ["hierarchy","reports"],
-        "datasets": ["data1"]
+        "datasets": ["data1"],
+        "reports": ["client2"]
       },
       "user2@company.com": {
         "role": "viewer",
         "pages": ["hierarchy"],
-        "datasets": ["data2"]
+        "datasets": ["data2"],
+        "reports": ["client1"]
       }
   }
 }

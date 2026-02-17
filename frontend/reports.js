@@ -10,6 +10,16 @@ let currentPageIndex = 0;
 // ================================
 // MAIN ENTRY
 // ================================
+async function loadUserProfile() {
+  const res = await fetch("/api/me");
+
+  if (!res.ok) {
+    throw new Error("Not authorised");
+  }
+
+  return await res.json();
+}
+
 async function initReports() {
 
   console.log("📊 reports.js loaded");
@@ -106,7 +116,7 @@ async function loadReportConfig(client) {
 
   try {
 
-    const res = await fetch(`/reports/${client}.json`);
+    const res = await fetch(`/api/reports?client=${client}`);
 
     if (!res.ok) {
       showError("Report configuration not found.");

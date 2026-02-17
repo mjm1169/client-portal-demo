@@ -27,23 +27,35 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         os.path.join(base_path, "..", "config", "user_access.json")
     )
 
-    with open(config_path) as f:
+    if not os.path.exists(config_path):
+        return func.HttpResponse(
+            json.dumps({"error": "Access config missing"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+
+    with open(config_path, "r", encoding="utf-8") as f:
         access = json.load(f)
 
-    datasets = []
+    user_config = access.get("users", {}).get(email)
 
-    # User-level override
-    if email in access.get("users", {}):
-        datasets = access["users"][email]["datasets"]
-        pages = access["users"][email]["pages"]
-        role = access["users"][email]["role"]
+    if not user_config:
+        return func.HttpResponse(
+            json.dumps({"error": "No access assigned"}),
+            status_code=403,
+            mimetype="application/json"
+        )
+
+    response = {
+        "email": email,
+        "role": user_config.get("role"),
+        "pages": user_config.get("pages", []),
+        "datasets": user_config.get("datasets", []),
+        "reports": user_config.get("reports", [])
+    }
 
     return func.HttpResponse(
-        json.dumps({
-            "email": email,
-            "datasets": datasets,
-            "pages": pages,
-            "role": role
-        }),
-        mimetype="application/json"
+        json.dumps(response),
+        mimetype="application/json",
+        status_code=200
     )
