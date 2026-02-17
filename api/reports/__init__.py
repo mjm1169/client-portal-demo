@@ -92,3 +92,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         json.dumps(report),
         mimetype="application/json"
     )
+    print("Params:", req.params)
+    print("Files:", os.listdir(os.path.join(base, "..", "datafiles")))
+
+
