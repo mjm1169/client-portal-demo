@@ -1,8 +1,12 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 export async function render(container, config) {
+  console.log("🎬 Rendering tooltip scatter plot");
+   // Get data directly
+   const data = config.data;
 
-  const data = await d3.json(config.data);
+   console.log("Using data:", data);
+ 
 
   const width = 500;
   const height = 300;

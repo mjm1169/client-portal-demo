@@ -54,9 +54,11 @@ export async function render(container, config) {
 
   console.log("🎬 Rendering animated bar chart");
 
-  // Load data
-  const res = await fetch(config.data);
-  const data = await res.json();
+   // Get data directly
+   const data = config.data;
+
+   console.log("Using data:", data);
+ 
 
 
   const width = 600;

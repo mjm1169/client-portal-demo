@@ -1,7 +1,10 @@
 export async function render(container, config) {
+  console.log("🎬 Rendering KPI tiles");
+   // Get data directly
+   const data = config.data;
 
-  const res = await fetch(config.data);
-  const data = await res.json();
+   console.log("Using data:", data);
+ 
 
 
   const grid = document.createElement("div");
