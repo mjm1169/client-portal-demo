@@ -13,11 +13,7 @@ document.addEventListener("DOMContentLoaded", initDashboard);
 async function initDashboard() {
 
   if (window.location.hash) {
-    history.replaceState(
-      null,
-      "",
-      window.location.pathname
-    );
+    history.replaceState(null, "", window.location.pathname);
   }
 
   const user = await getUser();
@@ -32,7 +28,6 @@ async function initDashboard() {
     el.innerText = user.email;
   }
 
-  renderDatasets(user.datasets);
   renderProducts(user.pages);
 }
 
@@ -47,7 +42,7 @@ function navigate(page) {
       break;
 
     case "reports":
-      window.location.href = "/reports.html#client=client2";
+      openReports();
       break;
 
     case "training":
@@ -65,54 +60,32 @@ function openHierarchy() {
 
   const defaultDs = "data1";
 
-  sessionStorage.setItem(
-    "pendingDataset",
-    `#ds=${defaultDs}`
-  );
-
-  window.location.assign(
-    `/hierarchy.html#ds=${defaultDs}`
-  );
+  window.location.href =
+    `/hierarchy.html#ds=${defaultDs}`;
 }
 
 
-// ---------------- RENDER DATASETS ----------------
-function renderDatasets(datasets) {
+// ---------------- OPEN REPORTS ----------------
+function openReports() {
 
-  const container = document.getElementById("dataset-list");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  if (!datasets.length) {
-    container.innerText = "No datasets assigned.";
+  if (!currentUser?.reports?.length) {
+    alert("No reports assigned.");
     return;
   }
 
-  datasets.forEach(ds => {
+  // If only one → open directly
+  if (currentUser.reports.length === 1) {
 
-    const btn = document.createElement("button");
+    const client = currentUser.reports[0];
 
-    btn.innerText = ds;
+    window.location.href =
+      `/reports.html#client=${client}`;
 
-    btn.onclick = () => openDataset(ds);
+    return;
+  }
 
-    container.appendChild(btn);
-  });
-}
-
-
-// ---------------- OPEN DATASET ----------------
-function openDataset(name) {
-
-  sessionStorage.setItem(
-    "pendingDataset",
-    `#ds=${name}`
-  );
-
-  window.location.href =
-    `/hierarchy.html#ds=${name}`;
+  // Future: report selector
+  console.log("Multiple reports:", currentUser.reports);
 }
 
 
@@ -124,7 +97,6 @@ function renderProducts(pages) {
   cards.forEach(card => {
 
     const target = card.dataset.page;
-
     if (!target) return;
 
     if (!pages.includes(target)) {

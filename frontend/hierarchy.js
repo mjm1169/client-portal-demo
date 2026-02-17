@@ -1,3 +1,5 @@
+import { getUser } from "./auth.js";
+
 async function loadUser() {
 
   const res = await fetch('/api/me');
