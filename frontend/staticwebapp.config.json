@@ -20,5 +20,14 @@
         "route": "/data/*",
         "allowedRoles": ["authenticated"]
       }
-    ]
+    ],
+
+    "navigationFallback": {
+      "rewrite": "/dashboard.html",
+      "exclude": [
+        "/api/*",
+        "/*.js",
+        "/*.css"
+      ]
+    }
   }
