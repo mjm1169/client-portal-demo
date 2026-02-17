@@ -2,7 +2,7 @@
     "users": {
       "m.mason@karianandbox.com": {
         "role": "admin",
-        "pages": ["hierarchy","reports","training"],
+        "pages": ["hierarchy","reports"],
         "datasets": ["data1"]
       },
       "user2@company.com": {
