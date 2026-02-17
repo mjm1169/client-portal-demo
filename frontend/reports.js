@@ -245,38 +245,67 @@ async function renderReport(report) {
 // ================================
 async function renderBlock(container, block) {
 
-  const blockEl = document.createElement("div");
+  const blockWrapper = document.createElement("div");
+  blockWrapper.className = "report-block";
 
-  blockEl.className = "report-block";
-
-  container.appendChild(blockEl);
+  container.appendChild(blockWrapper);
 
 
+  // -----------------------
+  // Title
+  // -----------------------
+  if (block.title) {
+
+    const h3 = document.createElement("h3");
+    h3.className = "block-title";
+    h3.innerText = block.title;
+
+    blockWrapper.appendChild(h3);
+  }
+
+
+  // -----------------------
+  // Caption
+  // -----------------------
+  if (block.caption) {
+
+    const p = document.createElement("p");
+    p.className = "block-caption";
+    p.innerText = block.caption;
+
+    blockWrapper.appendChild(p);
+  }
+
+
+  // -----------------------
+  // Chart Container
+  // -----------------------
+  const chartContainer = document.createElement("div");
+  chartContainer.className = "block-chart";
+
+  blockWrapper.appendChild(chartContainer);
+
+
+  // -----------------------
+  // Load Module
+  // -----------------------
   try {
 
     console.log("📦 Loading block:", block.type);
 
-    const module = await import(`/reports/blocks/${block.type}.js`);
-
+    const module = await import(`/blocks/${block.type}.js`);
 
     if (!module.render) {
       throw new Error("Block missing render() function");
     }
 
-
-    const data = await resolveBlockData(block);
-
-    await module.render(blockEl, {
-      ...block,
-      data
-    });
-
+    await module.render(chartContainer, block);
 
   } catch (err) {
 
     console.error("Block load error:", err);
 
-    blockEl.innerHTML = `
+    chartContainer.innerHTML = `
       <div class="block-error">
         Failed to load block: ${block.type}
       </div>

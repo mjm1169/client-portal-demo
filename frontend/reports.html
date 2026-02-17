@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8" />
   <title>Reports</title>
 
   <style>
@@ -20,10 +21,6 @@
       cursor: pointer;
     }
 
-    .report-block {
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 30px;
-    }
     .report-pages {
       max-width: 1000px;
       margin: auto;
@@ -40,10 +37,27 @@
       color: #333;
     }
 
-    .report-block {
+    .block-title {
+      margin: 0 0 6px 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .block-caption {
+      margin: 0 0 15px 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .block-chart {
       margin-bottom: 30px;
     }
 
+    .report-block {
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #eee;
+    }
   </style>
 </head>
 

@@ -9,6 +9,8 @@
       "blocks": [
         {
           "type": "animatedBar",
+          "title": "Title 1",
+          "caption": "Caption for title 1",
           "data": [
             { "name": "Q1", "value": 120 },
             { "name": "Q2", "value": 180 },
@@ -25,6 +27,8 @@
       "blocks": [
         {
           "type": "filterableLine",
+          "title": "Title 2",
+          "caption": "Caption for title 2",
           "data": [
             { "group": "A", "x": 1, "y": 30 },
             { "group": "A", "x": 2, "y": 50 },
@@ -37,6 +41,8 @@
         },
         {
           "type": "kpiTiles",
+          "title": "Title 3",
+          "caption": "Caption for title 3",
           "data": [
             {
               "label": "Revenue",
@@ -65,12 +71,16 @@
       "blocks": [
         {
           "type": "progressGauge",
+          "title": "Title 4",
+          "caption": "Caption for title 4",
           "data": {
             "value": 72
           }
         },
         {
           "type": "tooltipScatter",
+          "title": "Title 5",
+          "caption": "Caption for title 5",
           "data": [
             { "x": 10, "y": 20, "label": "Alpha" },
             { "x": 40, "y": 80, "label": "Beta" },
