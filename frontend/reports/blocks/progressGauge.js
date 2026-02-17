@@ -1,53 +1,43 @@
-// blocks/progressGauge.js
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+export async function render(container, config) {
 
-export function progressGauge(container, value) {
+  const res = await fetch(config.data);
+  const data = await res.json();
 
-  const width = 200;
-  const height = 200;
-  const radius = 80;
 
-  const svg = d3.select(container)
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", `translate(${width/2},${height/2})`);
+  const value = data.value;
 
-  const arc = d3.arc()
-    .innerRadius(60)
-    .outerRadius(radius)
-    .startAngle(0);
 
-  const background = svg.append("path")
-    .datum({ endAngle: 2 * Math.PI })
-    .attr("fill", "#eee")
-    .attr("d", arc);
+  const outer = document.createElement("div");
 
-  const foreground = svg.append("path")
-    .datum({ endAngle: 0 })
-    .attr("fill", "#16a34a")
-    .attr("d", arc);
+  outer.style.width = "200px";
+  outer.style.height = "200px";
+  outer.style.borderRadius = "50%";
+  outer.style.border = "12px solid #ddd";
+  outer.style.position = "relative";
 
-  foreground
-    .transition()
-    .duration(1200)
-    .attrTween("d", d => {
 
-      const i = d3.interpolate(
-        0,
-        value / 100 * 2 * Math.PI
-      );
+  const inner = document.createElement("div");
 
-      return t => {
-        d.endAngle = i(t);
-        return arc(d);
-      };
-    });
+  inner.style.width = "100%";
+  inner.style.height = "100%";
+  inner.style.borderRadius = "50%";
+  inner.style.border = "12px solid #59a14f";
+  inner.style.clipPath = `inset(${100 - value}% 0 0 0)`;
 
-  svg.append("text")
-    .attr("text-anchor", "middle")
-    .attr("dy", ".35em")
-    .style("font-size", "22px")
-    .text(value + "%");
+
+  const text = document.createElement("div");
+
+  text.innerText = value + "%";
+
+  text.style.position = "absolute";
+  text.style.top = "50%";
+  text.style.left = "50%";
+  text.style.transform = "translate(-50%,-50%)";
+  text.style.fontSize = "24px";
+
+
+  outer.appendChild(inner);
+  outer.appendChild(text);
+
+  container.appendChild(outer);
 }

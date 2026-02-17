@@ -1,20 +1,83 @@
 {
-    "title": "Client Performance Report",
-  
-    "pages": [
-  
-      {
-        "title": "Sales",
-  
-        "blocks": [
-  
-          {
-            "type": "animatedBar",
-            "data": "/reports/sales.json"
+  "title": "Client Performance Report",
+
+  "pages": [
+    {
+      "id": "sales",
+      "title": "Sales Overview",
+
+      "blocks": [
+        {
+          "type": "animatedBar",
+          "data": [
+            { "name": "Q1", "value": 120 },
+            { "name": "Q2", "value": 180 },
+            { "name": "Q3", "value": 90 }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "growth",
+      "title": "Growth Trends",
+
+      "blocks": [
+        {
+          "type": "filterableLine",
+          "data": [
+            { "group": "A", "x": 1, "y": 30 },
+            { "group": "A", "x": 2, "y": 50 },
+            { "group": "A", "x": 3, "y": 40 },
+          
+            { "group": "B", "x": 1, "y": 20 },
+            { "group": "B", "x": 2, "y": 70 },
+            { "group": "B", "x": 3, "y": 60 }
+          ]
+        },
+        {
+          "type": "kpiTiles",
+          "data": [
+            {
+              "label": "Revenue",
+              "value": "£1.2M",
+              "change": "+8%"
+            },
+            {
+              "label": "Customers",
+              "value": "4,230",
+              "change": "+3%"
+            },
+            {
+              "label": "Churn",
+              "value": "1.2%",
+              "change": "-0.4%"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "page3",
+      "title": "Page 3",
+
+      "blocks": [
+        {
+          "type": "progressGauge",
+          "data": {
+            "value": 72
           }
-  
-        ]
-      }
-    ]
-  }
-  
+        },
+        {
+          "type": "tooltipScatter",
+          "data": [
+            { "x": 10, "y": 20, "label": "Alpha" },
+            { "x": 40, "y": 80, "label": "Beta" },
+            { "x": 70, "y": 50, "label": "Gamma" }
+          ]
+        }
+      ]
+    }
+  ]
+}
