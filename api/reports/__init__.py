@@ -30,7 +30,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         )
 
     user = json.loads(base64.b64decode(principal))
-    email = user.get("userDetails")
+    email = user.get("userDetails").lower()
 
 
     # -----------------------------

@@ -23,7 +23,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse("Not authenticated", status_code=401)
 
     user = json.loads(base64.b64decode(client))
-    email = user.get("userDetails")
+    email = user.get("userDetails").lower()
 
     # Load access config
     base = os.path.dirname(__file__)

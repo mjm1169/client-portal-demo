@@ -19,7 +19,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     decoded = base64.b64decode(client_principal)
     user = json.loads(decoded)
 
-    email = user.get("userDetails")
+    email = user.get("userDetails").lower()
 
     # Load access config
     base_path = os.path.dirname(__file__)
