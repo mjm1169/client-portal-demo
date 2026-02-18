@@ -4,6 +4,11 @@ let currentUser = null;
 
 document.addEventListener("DOMContentLoaded", initHierarchy);
 
+function loadFromHash() {
+  const ds = getDataset();
+  if (ds) loadData();
+}
+
 async function initHierarchy() {
   const user = await getUser();
   if (!user) return;
@@ -48,17 +53,17 @@ function openDataset(name) {
 }
 
 
-async function loadUser() {
-
-  const res = await fetch('/api/me');
-
-  if (!res.ok) {
-    window.location.href = "/.auth/login/aad";
-    return null;
-  }
-
-  return await res.json();
-}
+//async function loadUser() {
+//
+//  const res = await fetch('/api/me');
+//
+//  if (!res.ok) {
+//    window.location.href = "/.auth/login/aad";
+//    return null;
+//  }
+//
+//  return await res.json();
+//}
 
 function checkAccess(user) {
   return user?.pages?.includes("hierarchy");
@@ -66,7 +71,7 @@ function checkAccess(user) {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  const user = await loadUser();
+  const user = await getUser();
 
   if (!user) return;
 

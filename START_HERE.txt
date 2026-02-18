@@ -16,11 +16,11 @@ How to run backend locally
 6. Open browser:
    http://127.0.0.1:8000
 
+Bugs
+- data2 doesn't show. You asked Chat-PT about this. See chat "Debugging Azure Function..."
 Wish list
 - set up Azure database (need updated permissions for this)
 - set up some testers as users
 - update permission so non-Azure accounts can see site 
 - apply Matt B's look and feel everywhere.
-- decide what sections to include this week for demo-ing
 - admin section to service users and datasets
-- include three-page report demo
