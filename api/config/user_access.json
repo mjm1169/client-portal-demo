@@ -6,11 +6,11 @@
         "datasets": ["data1"],
         "reports": ["client2"]
       },
-      "user2@company.com": {
+      "chris.broome@ipsos.com": {
         "role": "viewer",
-        "pages": ["hierarchy"],
+        "pages": ["hierarchy","reports"],
         "datasets": ["data2"],
-        "reports": ["client1"]
+        "reports": ["client2"]
       }
   }
 }

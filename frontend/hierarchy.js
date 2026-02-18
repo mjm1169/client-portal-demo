@@ -1,5 +1,53 @@
 import { getUser } from "./auth.js";
 
+let currentUser = null;
+
+document.addEventListener("DOMContentLoaded", initHierarchy);
+
+async function initHierarchy() {
+  const user = await getUser();
+  if (!user) return;
+
+  currentUser = user;
+
+  renderDatasets(user.datasets);
+
+  loadFromHash();
+}
+
+function renderDatasets(datasets) {
+
+  const container = document.getElementById("dataset-list");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (!datasets.length) {
+    container.innerText = "No datasets assigned.";
+    return;
+  }
+
+  datasets.forEach(ds => {
+
+    const btn = document.createElement("button");
+
+    btn.innerText = ds;
+
+    btn.onclick = () => openDataset(ds);
+
+    container.appendChild(btn);
+  });
+}
+
+
+function openDataset(name) {
+
+  window.location.hash = `#ds=${name}`;
+
+  loadDataset(name);
+}
+
+
 async function loadUser() {
 
   const res = await fetch('/api/me');
