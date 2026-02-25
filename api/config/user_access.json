@@ -3,7 +3,7 @@
       "m.mason@karianandbox.com": {
         "role": "admin",
         "pages": ["hierarchy","reports"],
-        "datasets": ["data2"],
+        "datasets": ["data1"],
         "reports": ["client2"]
       },
       "chris.broome@ipsos.com": {
