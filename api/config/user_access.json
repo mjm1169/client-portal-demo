@@ -4,13 +4,13 @@
         "role": "admin",
         "pages": ["hierarchy","reports"],
         "datasets": ["data1"],
-        "reports": ["client2"]
+        "reports": ["client1"]
       },
       "chris.broome@ipsos.com": {
         "role": "viewer",
         "pages": ["hierarchy","reports"],
         "datasets": ["data1"],
-        "reports": ["client2"]
+        "reports": ["client1"]
       }
   }
 }
